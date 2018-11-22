@@ -24,3 +24,22 @@ salmon_plot <- ggplot(salmon, aes(x = Year, y = salmon_fresh)) +
 salmon_plot
 ```
 
+Data does not appear to be linear, not all points fall on a diagnal line
+
+```{r}
+# Model for linear regression
+salmon_model <- lm(salmon_fresh ~ Year, data = salmon)
+
+salmon_model
+
+# salmon(imports) = -14982940 + 7550*year
+# slope is negative indicating a downward trend. 
+summary(salmon_model)
+
+salmon_summary <- summary(salmon_model)
+```
+
+```{r}
+
+```
+
