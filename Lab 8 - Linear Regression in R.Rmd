@@ -9,4 +9,18 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(tidyverse)
+
+salmon <- read_csv("salmon_imports.csv")
+```
+
+```{r}
+# Scatter plot
+salmon_plot <- ggplot(salmon, aes(x = Year, y = salmon_fresh)) +
+  geom_point() +
+  labs(x = "Year", y = "Salmon Imports", title="Juan's Graph")
+
+salmon_plot
+```
 
