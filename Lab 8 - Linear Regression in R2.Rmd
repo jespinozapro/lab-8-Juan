@@ -1,0 +1,93 @@
+---
+title: "lab 8 -2"
+author: "Juan Espinoza"
+date: "November 23, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Question 3
+library(tidyverse)
+library(ggplot2)
+
+salmon <- read_csv("salmon_imports.csv")
+```
+
+```{r}
+# Question 4
+# Scatter plot
+salmon_plot <- ggplot(salmon, aes(x = year, y = salmon_fresh)) +
+  geom_point() +
+  labs(x = "Year", y = "Salmon Imports", title="Juan's Graph")
+
+salmon_plot
+```
+
+```{r}
+# Question 5
+# Model for linear regression
+salmon_model <- lm(salmon_fresh ~ year, data = salmon)
+
+salmon_model
+
+# salmon(imports) = -14982940 + 7550*year
+# slope is negative indicating a downward trend. 
+
+```
+
+```{r}
+# Question 6
+plot(salmon_model)
+# Residuals = normlly distributed
+# no concern for heteroscedastity or outliers
+
+par(mfrow = c(2,2))
+plot(salmon_model)
+```
+
+```{r}
+# Question 7
+summary(salmon_model)
+
+salmon_summary <- summary(salmon_model)
+salmon_summary
+
+# Year predicts salmon imports
+# R-squared is the percentage of the response variable variation that is explained by a linear model
+# What proportion of variance is not explained?
+```
+
+```{r}
+# Question 8
+
+salmon_final_graph <- ggplot(salmon, aes(x = year, y = salmon_fresh)) +
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE, size = 0.5, color = "gray20") +
+  theme_bw() +
+  scale_x_continuous(expand = c(0,0), limits = c(1990, 2017)) +
+  labs(x = "Year", y = "U.S. Annual Fresh Salmon Imports\n(1,000 pounds)")
+
+salmon_final_graph
+```
+
+```{r}
+# Question 9
+new_years <- data.frame (year = c(2022, 2024, 2026, 2028))
+
+new_years
+
+future_predict <- predict(salmon_model, newdata = new_years, interval = "confidence")
+
+future_predict
+
+predictions <- data.frame(new_years, future_predict)
+
+predictions
+
+salmon_test <- cor.test(salmon_model$new_years, salmon_model$future_predict)
+```
+
